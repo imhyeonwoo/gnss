@@ -3,6 +3,8 @@
 이 문서는 **Jeju Autonomous Driving Project**에서 **GitHub에 콘텐츠를 올리고 관리하는 방법**을 정리한 가이드입니다.  
 이제 VSCode 터미널을 사용하여 GitHub에 원화할 수 있습니다. ✅
 
+**여기서는 local cartesian conversion을 적용한 것임**
+
 ---
 
 ## 📌 1. 변경 상황을 GitHub에 업로드하는 방법
