@@ -10,18 +10,18 @@ class VehicleTFBroadcaster:
     def __init__(self):
         rospy.init_node('vehicle_tf_broadcaster', anonymous=True)
         self.tf_broadcaster = tf2_ros.TransformBroadcaster()
-        
         self.vehicle_x = 0.0
         self.vehicle_y = 0.0
         self.vehicle_z = 0.0
-        self.global_yaw = 0.0
-        
-        rospy.Subscriber("local_xy", PointStamped, self.local_xy_callback)
+        self.global_yaw = 0.0  # global yaw, 업데이트는 global_yaw_estimator에서 받음
+
+        rospy.Subscriber("utm_xy", PointStamped, self.utm_callback)
         rospy.Subscriber("global_yaw", Float32, self.yaw_callback)
+        # 타이머를 사용하여 10Hz로 tf 발행
         rospy.Timer(rospy.Duration(0.1), self.timer_callback)
         rospy.spin()
 
-    def local_xy_callback(self, msg):
+    def utm_callback(self, msg):
         self.vehicle_x = msg.point.x
         self.vehicle_y = msg.point.y
         self.vehicle_z = msg.point.z
@@ -32,7 +32,7 @@ class VehicleTFBroadcaster:
     def timer_callback(self, event):
         t = TransformStamped()
         t.header.stamp = rospy.Time.now()
-        t.header.frame_id = "reference"
+        t.header.frame_id = "world"
         t.child_frame_id = "vehicle"
         t.transform.translation.x = self.vehicle_x
         t.transform.translation.y = self.vehicle_y
