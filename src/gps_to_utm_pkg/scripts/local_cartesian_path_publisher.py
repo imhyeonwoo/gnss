@@ -9,15 +9,13 @@ from geometry_msgs.msg import PoseStamped
 from scipy.interpolate import CubicSpline
 
 # CSV 파일 경로 (course1.csv; 대회측 제공 CSV)
-csv_filename = os.path.expanduser("~/git/gnss/src/gps_to_utm_pkg/data/course1.csv")
+csv_filename = os.path.expanduser(rospy.get_param("~csv_filename", "~/git/gnss/src/gps_to_utm_pkg/data/course1.csv"))
 
-# 파라미터 (rosparam 사용 가능)
-TARGET_SPACING = rospy.get_param("~target_spacing", 0.2)   # 20cm 간격
-MIN_DISTANCE = rospy.get_param("~min_distance", 0.3)         # 최소 0.3m
-
-# 기준 좌표 (reference frame)
-REF_LAT = rospy.get_param("~ref_lat", 37.540)
-REF_LON = rospy.get_param("~ref_lon", 127.076)
+# rosparam으로 설정 가능한 파라미터들
+TARGET_SPACING = rospy.get_param("~target_spacing", 0.2)  # 보간 후 resampling 간격 (미터)
+MIN_DISTANCE = rospy.get_param("~min_distance", 0.3)        # 인접 점 필터링 최소 거리 (미터)
+REF_LAT = rospy.get_param("~ref_lat", 37.540)               # 기준 위도
+REF_LON = rospy.get_param("~ref_lon", 127.076)              # 기준 경도
 R_EARTH = 6378137.0
 
 def latlon_to_local(lat, lon, ref_lat, ref_lon):
@@ -90,7 +88,7 @@ class LocalPathPublisher:
     def __init__(self):
         rospy.init_node("local_cartesian_path_publisher", anonymous=True)
         self.path_pub = rospy.Publisher("resampled_path", Path, queue_size=1)
-        # CSV 데이터를 한 번 읽습니다.
+        self.local_pose_pub = rospy.Publisher("local_xy", PoseStamped, queue_size=10)
         raw_points = load_course_data()
         if not raw_points:
             rospy.logerr("Course 데이터를 찾을 수 없습니다.")
@@ -98,7 +96,6 @@ class LocalPathPublisher:
         filtered_points = filter_points_by_distance(raw_points, MIN_DISTANCE)
         self.resampled_points = compute_cubic_spline(filtered_points, TARGET_SPACING)
         rospy.loginfo("Resampled local path has %d points", len(self.resampled_points))
-        # 5초마다 publish하는 타이머 설정
         rospy.Timer(rospy.Duration(5.0), self.timer_callback)
 
     def timer_callback(self, event):
@@ -117,6 +114,17 @@ class LocalPathPublisher:
             path_msg.poses.append(pose)
         self.path_pub.publish(path_msg)
         rospy.loginfo("Published resampled path with %d points", len(self.resampled_points))
+        # 마지막 점 publish (/local_xy)
+        if self.resampled_points:
+            last_x, last_y = self.resampled_points[-1]
+            local_pose = PoseStamped()
+            local_pose.header.frame_id = "reference"
+            local_pose.header.stamp = current_time
+            local_pose.pose.position.x = last_x
+            local_pose.pose.position.y = last_y
+            local_pose.pose.position.z = 0.0
+            local_pose.pose.orientation.w = 1.0
+            self.local_pose_pub.publish(local_pose)
 
 if __name__ == "__main__":
     try:
