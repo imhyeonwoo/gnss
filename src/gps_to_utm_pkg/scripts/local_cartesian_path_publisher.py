@@ -7,15 +7,27 @@ import numpy as np
 from nav_msgs.msg import Path
 from geometry_msgs.msg import PoseStamped
 from scipy.interpolate import CubicSpline
+import rospkg
 
-# CSV 파일 경로 (course1.csv; 대회측 제공 CSV)
-csv_filename = os.path.expanduser(rospy.get_param("~csv_filename", "~/git/gnss/src/gps_to_utm_pkg/data/course1.csv"))
+# rospkg를 이용하여 패키지 gps_to_utm_pkg의 경로를 가져옵니다.
+rospack = rospkg.RosPack()
+pkg_path = rospack.get_path("gps_to_utm_pkg")
+
+# CSV 파일 경로 (ilgam_lake.csv; 대회측 제공 CSV)
+# 만약 다른 csv 파일을 사용하고 싶다면 주석 처리된 smart_factory1.csv 줄을 사용할 수 있습니다.
+default_csv = os.path.join(pkg_path, "data", "ilgam_lake.csv")
+# default_csv = os.path.join(pkg_path, "data", "smart_factory1.csv")
+
+# rosparam으로 설정 가능한 파라미터; 기본값은 위에서 설정한 default_csv입니다.
+csv_filename = rospy.get_param("~csv_filename", default_csv)
 
 # rosparam으로 설정 가능한 파라미터들
 TARGET_SPACING = rospy.get_param("~target_spacing", 0.2)  # 보간 후 resampling 간격 (미터)
 MIN_DISTANCE = rospy.get_param("~min_distance", 0.3)        # 인접 점 필터링 최소 거리 (미터)
-REF_LAT = rospy.get_param("~ref_lat", 37.540)               # 기준 위도
-REF_LON = rospy.get_param("~ref_lon", 127.076)              # 기준 경도
+# 와우도 : 37.540085 127.076543
+# 스마트팩토리 주차장 : 37.540603 127.079843
+REF_LAT = rospy.get_param("~ref_lat", 37.540085)               # 기준 위도
+REF_LON = rospy.get_param("~ref_lon", 127.076543)              # 기준 경도
 R_EARTH = 6378137.0
 
 def latlon_to_local(lat, lon, ref_lat, ref_lon):

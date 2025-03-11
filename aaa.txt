@@ -1,0 +1,167 @@
+jecs@jecs-Default-string:~$ cd dolbat_git/dol_dol_dol_ws/
+jecs@jecs-Default-string:~/dolbat_git/dol_dol_dol_ws$ git sta
+git: 'sta' is not a git command. See 'git --help'.
+
+The most similar commands are
+	status
+	stage
+	stash
+jecs@jecs-Default-string:~/dolbat_git/dol_dol_dol_ws$ git status
+On branch dev
+Your branch is behind 'origin/dev' by 25 commits, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	gps.xml
+
+nothing added to commit but untracked files present (use "git add" to track)
+jecs@jecs-Default-string:~/dolbat_git/dol_dol_dol_ws$ git fetch 
+remote: Enumerating objects: 25, done.
+remote: Counting objects: 100% (23/23), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 13 (delta 10), reused 13 (delta 10), pack-reused 0 (from 0)
+Unpacking objects: 100% (13/13), 6.18 KiB | 1.03 MiB/s, done.
+From https://github.com/Highsky7/dol_dol_dol_ws
+   17a156d..22b822b  dev        -> origin/dev
+jecs@jecs-Default-string:~/dolbat_git/dol_dol_dol_ws$ git merge origin/dev 
+Updating 5fceb1a..22b822b
+Fast-forward
+ arduino/doldol_control.ino/doldol_control.ino.ino  |  99 ++-
+ .../doldol_motor.ino}                              |  49 +-
+ how_to_rosbag_record                               |   7 +
+ how_to_run.txt                                     |   1 +
+ src/LeGO-LOAM/CMakeLists.txt                       |   4 +-
+ src/LeGO-LOAM/launch/run.launch                    |   8 +-
+ src/LeGO-LOAM/launch/test.rviz                     | 666 ++++---------------
+ src/LeGO-LOAM/src/featureAssociation.cpp           |  81 +--
+ .../src/{mapOptmization.cpp => mapOptmization.txt} |  20 +-
+ src/LeGO-LOAM/src/transformFusion.cpp              | 219 +++---
+ src/camera_lane_segmentation/CMakeLists.txt        |   4 -
+ .../scripts/Ekfsmooth_pure_pursuit_onoff.py        | 737 ---------------------
+ .../scripts/bev_line_thinning_node.py              | 529 ---------------
+ .../scripts/bev_with_filtering.py                  | 487 --------------
+ .../scripts/binary_mask_with_thinning.py           | 329 ---------
+ .../scripts/camera_driving.py                      | 405 +++++++++++
+ .../scripts/filtering_with_thinning.py             | 430 ------------
+ .../scripts/kfsmooth_pure_pursuit.py               | 674 -------------------
+ .../scripts/kfsmooth_pure_pursuit_onoff.py         | 682 -------------------
+ src/camera_lane_segmentation/scripts/lane_judge.py |   4 +-
+ .../scripts/lane_line_mask_checking.py             | 184 -----
+ .../scripts/pseudo_lidar.py                        | 617 -----------------
+ .../scripts/pseudo_lidar_IPM_bev.py                | 655 ------------------
+ .../scripts/tempCodeRunnerFile.py                  | 487 --------------
+ .../scripts/thinning_result_checking.py            | 188 ------
+ .../scripts/utils/utils.py                         |  38 +-
+ src/judgement/scripts/judgement.py                 |  41 +-
+ src/ma_rrt_path_plan/src/MaRRTPathPlanNode.py      |  12 +-
+ src/sort_ros_pkg/.gitignore                        |  51 ++
+ src/sort_ros_pkg/CMakeLists.txt                    | 148 +++++
+ src/sort_ros_pkg/LICENSE                           | 661 ++++++++++++++++++
+ src/sort_ros_pkg/README.md                         |  24 +
+ src/sort_ros_pkg/include/Hungarian.h               |  39 ++
+ src/sort_ros_pkg/include/Sort.h                    |  37 ++
+ src/sort_ros_pkg/include/SortRect.h                |  27 +
+ src/sort_ros_pkg/include/SortRos.h                 |  57 ++
+ src/sort_ros_pkg/include/Tracker.h                 |  39 ++
+ src/sort_ros_pkg/include/TrackerState.h            |  26 +
+ src/sort_ros_pkg/package.xml                       |  26 +
+ src/sort_ros_pkg/src/Hungarian.cpp                 | 382 +++++++++++
+ src/sort_ros_pkg/src/Sort.cpp                      | 174 +++++
+ src/sort_ros_pkg/src/SortRect.cpp                  |  36 +
+ src/sort_ros_pkg/src/SortRos.cpp                   | 143 ++++
+ src/sort_ros_pkg/src/Tracker.cpp                   |  88 +++
+ src/sort_ros_pkg/src/TrackerState.cpp              |  25 +
+ src/sort_ros_pkg/src/main.cpp                      |  16 +
+ 46 files changed, 2835 insertions(+), 6821 deletions(-)
+ rename arduino/{doldol_motor.ino/doldol_motor.ino/doldol_motor.ino.ino => doldol_motor/doldol_motor.ino} (84%)
+ create mode 100644 how_to_rosbag_record
+ rename src/LeGO-LOAM/src/{mapOptmization.cpp => mapOptmization.txt} (98%)
+ delete mode 100755 src/camera_lane_segmentation/scripts/Ekfsmooth_pure_pursuit_onoff.py
+ delete mode 100644 src/camera_lane_segmentation/scripts/bev_line_thinning_node.py
+ delete mode 100644 src/camera_lane_segmentation/scripts/bev_with_filtering.py
+ delete mode 100644 src/camera_lane_segmentation/scripts/binary_mask_with_thinning.py
+ create mode 100755 src/camera_lane_segmentation/scripts/camera_driving.py
+ delete mode 100755 src/camera_lane_segmentation/scripts/filtering_with_thinning.py
+ delete mode 100755 src/camera_lane_segmentation/scripts/kfsmooth_pure_pursuit.py
+ delete mode 100755 src/camera_lane_segmentation/scripts/kfsmooth_pure_pursuit_onoff.py
+ delete mode 100644 src/camera_lane_segmentation/scripts/lane_line_mask_checking.py
+ delete mode 100644 src/camera_lane_segmentation/scripts/pseudo_lidar.py
+ delete mode 100755 src/camera_lane_segmentation/scripts/pseudo_lidar_IPM_bev.py
+ delete mode 100644 src/camera_lane_segmentation/scripts/tempCodeRunnerFile.py
+ delete mode 100644 src/camera_lane_segmentation/scripts/thinning_result_checking.py
+ mode change 100644 => 100755 src/ma_rrt_path_plan/src/MaRRTPathPlanNode.py
+ create mode 100644 src/sort_ros_pkg/.gitignore
+ create mode 100644 src/sort_ros_pkg/CMakeLists.txt
+ create mode 100644 src/sort_ros_pkg/LICENSE
+ create mode 100644 src/sort_ros_pkg/README.md
+ create mode 100644 src/sort_ros_pkg/include/Hungarian.h
+ create mode 100644 src/sort_ros_pkg/include/Sort.h
+ create mode 100644 src/sort_ros_pkg/include/SortRect.h
+ create mode 100644 src/sort_ros_pkg/include/SortRos.h
+ create mode 100644 src/sort_ros_pkg/include/Tracker.h
+ create mode 100644 src/sort_ros_pkg/include/TrackerState.h
+ create mode 100644 src/sort_ros_pkg/package.xml
+ create mode 100644 src/sort_ros_pkg/src/Hungarian.cpp
+ create mode 100644 src/sort_ros_pkg/src/Sort.cpp
+ create mode 100644 src/sort_ros_pkg/src/SortRect.cpp
+ create mode 100644 src/sort_ros_pkg/src/SortRos.cpp
+ create mode 100644 src/sort_ros_pkg/src/Tracker.cpp
+ create mode 100644 src/sort_ros_pkg/src/TrackerState.cpp
+ create mode 100644 src/sort_ros_pkg/src/main.cpp
+jecs@jecs-Default-string:~/dolbat_git/dol_dol_dol_ws$ git status
+On branch dev
+Your branch is up to date with 'origin/dev'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	gps.xml
+	src/gps_to_utm_pkg/
+
+nothing added to commit but untracked files present (use "git add" to track)
+jecs@jecs-Default-string:~/dolbat_git/dol_dol_dol_ws$ git add src/gps_to_utm_pkg/
+jecs@jecs-Default-string:~/dolbat_git/dol_dol_dol_ws$ git commit -m "added pure pursuit only by gps(ihw)"
+[dev fa741de] added pure pursuit only by gps(ihw)
+ 28 files changed, 10553 insertions(+)
+ create mode 100644 src/gps_to_utm_pkg/CMakeLists.txt
+ create mode 100644 src/gps_to_utm_pkg/data/course1.bag
+ create mode 100644 src/gps_to_utm_pkg/data/course1.csv
+ create mode 100644 src/gps_to_utm_pkg/data/gps_test1.bag
+ create mode 100644 src/gps_to_utm_pkg/data/gps_test1.csv
+ create mode 100644 src/gps_to_utm_pkg/data/ilgam_lake.bag
+ create mode 100644 src/gps_to_utm_pkg/data/ilgam_lake.csv
+ create mode 100644 src/gps_to_utm_pkg/data/smart_factory1.bag
+ create mode 100644 src/gps_to_utm_pkg/data/smart_factory1.csv
+ create mode 100644 src/gps_to_utm_pkg/data/smart_factory2.bag
+ create mode 100644 src/gps_to_utm_pkg/data/smart_factory2.csv
+ create mode 100644 src/gps_to_utm_pkg/how_to_play.txt
+ create mode 100644 src/gps_to_utm_pkg/launch/local_cartesian.launch
+ create mode 100644 src/gps_to_utm_pkg/package.xml
+ create mode 100755 src/gps_to_utm_pkg/scripts/course_csv_creator.py
+ create mode 100755 src/gps_to_utm_pkg/scripts/global_yaw_estimator.py
+ create mode 100755 src/gps_to_utm_pkg/scripts/global_yaw_estimator_utm.py
+ create mode 100755 src/gps_to_utm_pkg/scripts/gps_to_local_cartesian.py
+ create mode 100644 src/gps_to_utm_pkg/scripts/gps_to_utm_node.py
+ create mode 100755 src/gps_to_utm_pkg/scripts/local_cartesian_path_publisher.py
+ create mode 100755 src/gps_to_utm_pkg/scripts/make_csv_file.py
+ create mode 100755 src/gps_to_utm_pkg/scripts/purepursuit.py
+ create mode 100755 src/gps_to_utm_pkg/scripts/roi_path_publisher.py
+ create mode 100644 src/gps_to_utm_pkg/scripts/roi_path_publisher_origin.py
+ create mode 100755 src/gps_to_utm_pkg/scripts/utm_csv_visualizer.py
+ create mode 100755 src/gps_to_utm_pkg/scripts/utm_csv_visualizer_path.py
+ create mode 100755 src/gps_to_utm_pkg/scripts/vehicle_tf_broadcaster.py
+ create mode 100755 src/gps_to_utm_pkg/scripts/vehicle_tf_broadcaster_utm.py
+jecs@jecs-Default-string:~/dolbat_git/dol_dol_dol_ws$ git fetch
+jecs@jecs-Default-string:~/dolbat_git/dol_dol_dol_ws$ git merge origin/dev 
+Already up to date.
+jecs@jecs-Default-string:~/dolbat_git/dol_dol_dol_ws$ git push origin dev 
+Enumerating objects: 36, done.
+Counting objects: 100% (36/36), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (34/34), done.
+Writing objects: 100% (34/34), 4.08 MiB | 2.22 MiB/s, done.
+Total 34 (delta 9), reused 0 (delta 0)
+remote: Resolving deltas: 100% (9/9), completed with 2 local objects.
+To https://github.com/Highsky7/dol_dol_dol_ws.git
+   22b822b..fa741de  dev -> dev
+jecs@jecs-Default-string:~/dolbat_git/dol_dol_dol_ws$ 

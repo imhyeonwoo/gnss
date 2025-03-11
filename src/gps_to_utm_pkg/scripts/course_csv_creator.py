@@ -55,11 +55,11 @@ if __name__ == '__main__':
     rospy.init_node('course_csv_creator', anonymous=True)
     # bag 파일 경로와 출력 CSV 파일 경로를 지정합니다.
     # 기본적으로 git/gnss/src/gps_to_utm_pkg/data 폴더 내에 있다고 가정합니다.
-    data_dir = os.path.expanduser("~/git/gnss/src/gps_to_utm_pkg/data")
+    data_dir = "src/gps_to_utm_pkg/data"
     # 예를 들어, bag 파일 이름이 "contest_data.bag"라면:
-    bag_filepath = os.path.join(data_dir, "/home/jecs/git/gnss/src/gps_to_utm_pkg/data/2025-03-06-22-05-02.bag")
+    bag_filepath = os.path.join(data_dir, "smart_factory2.bag")
     # 출력 CSV 파일은 course1.csv로 저장
-    output_csv = os.path.join(data_dir, "course1.csv")
+    output_csv = os.path.join(data_dir, "smart_factory2.csv")
     
     # 만약 명령행 인자로 bag 파일 경로를 전달하고 싶다면
     if len(sys.argv) > 1:
