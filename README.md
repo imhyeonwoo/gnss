@@ -1,9 +1,9 @@
-# GNSS-Python: Python으로 구현하는 GNSS 수신기 위치 결정
+# GNSS: ROS1 Noetic F9P RTK 구현 코드 모음
 
 [![Python](https://img.shields.io/badge/Python-3.x-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-🛰️ 이 프로젝트는 GNSS(Global Navigation Satellite System) 데이터를 처리하여 수신기의 위치를 계산하는 알고리즘을 순수 Python으로 구현한 것입니다.
+🛰️ 이 프로젝트는 GNSS(Global Navigation Satellite System) 데이터를 처리하여 수신기의 위치를 계산하는 알고리즘을 구현한 코드를 모은 곳입니다.
 
 RINEX 형식의 관측 파일과 항법 메시지 파일을 읽어, **최소제곱법(Least Squares)**을 이용해 수신기의 3차원 좌표를 추정합니다. GNSS의 기본 원리를 학습하고 직접 구현해보고자 하는 학생 및 연구자들을 위한 교육용 자료입니다.
 
